@@ -1,4 +1,6 @@
 import React from "react";
+import { Input, Button } from "rsuite";
+import "rsuite/dist/styles/rsuite-default.css";
 
 interface State {
   todolist: string[];
@@ -34,31 +36,39 @@ export default class Todolist extends React.Component<{}, State> {
 
   render() {
     return (
-      <div>
-        Insert your to-do-list
-        <input
-          onChange={(e) => this.setState({ temp: e.target.value })}
+      <div
+        style={{
+          maxWidth: "600px",
+        }}
+      >
+        <h3>Insert your to-do-list</h3>
+        <Input
+          size="md"
+          placeholder="Todolist"
+          onChange={(e) => this.setState({ temp: e })}
           value={this.state.temp}
         />
-        <button
+        <Button
+          appearance="primary"
           onClick={() => {
             this.push(this.state.temp);
           }}
         >
           Insert
-        </button>
+        </Button>
         <br></br>
         <h1>
           {this.state.todolist.map((item, index) => (
             <p>
               {item}
-              <button
+              <Button
+                appearance="primary"
                 onClick={() => {
                   this.delete(index);
                 }}
               >
                 Delete
-              </button>
+              </Button>
             </p>
           ))}
         </h1>

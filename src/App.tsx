@@ -11,12 +11,12 @@ interface State {
 class App extends React.Component<{}, State> {
   login = (username: string, password: string) => {
     if (username === "eric" && password === "123") {
-      alert("hi!");
+      alert("Hi!");
       this.setState({ username: username });
     } else if (username === "" || password === "") {
-      alert("please fill all the blank!");
+      alert("Please fill all the blank!");
     } else {
-      alert("wrong username or password, get out!");
+      alert("Prong username or password!");
     }
   };
 
@@ -35,7 +35,11 @@ class App extends React.Component<{}, State> {
         ) : (
           <></>
         )}
-        <Topbar username={this.state.username}></Topbar>
+        {this.state.username === "" ? (
+          <></>
+        ) : (
+          <Topbar username={this.state.username}></Topbar>
+        )}
         <br></br>
         {this.state.username === "" ? <></> : <Todolist></Todolist>}
       </div>
