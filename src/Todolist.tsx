@@ -1,10 +1,13 @@
 import React from "react";
 import { Input, Button } from "rsuite";
 import "rsuite/dist/styles/rsuite-default.css";
+import { Todo } from "./type";
 
 interface State {
-  todolist: string[];
-  temp: string;
+  todolist: Todo[];
+  temptitle: string;
+  tempddl: string;
+  tempstat: string;
 }
 
 export default class Todolist extends React.Component<{}, State> {
@@ -12,27 +15,46 @@ export default class Todolist extends React.Component<{}, State> {
     super(props);
     this.state = {
       todolist: [],
-      temp: "",
+      temptitle: "",
+      tempddl: "",
+      tempstat: "",
     };
   }
 
-  push = (insert: string) => {
-    var a: string[];
-    if (insert === "") {
-      this.setState({ temp: "" });
+  push = (title: string, ddl: string, stat: string) => {
+    var a: Todo[];
+    var new_todo: Todo;
+    if (title === "" || ddl === "" || stat === "") {
+      this.setState({ temptitle: "", tempddl: "", tempstat: "" });
+      alert("Please fill all the blanks!");
       return;
     }
-    a = this.state.todolist;
-    a.push(insert);
-    this.setState({ todolist: a, temp: "" });
+    a = [...this.state.todolist];
+    new_todo = {
+      title: "",
+      ddl:  "",
+      status: ""
+    };
+    new_todo.title = title;
+    new_todo.ddl = ddl;
+    new_todo.status = stat;
+    a.push(new_todo);
+    this.setState({ todolist: a, temptitle: "", tempddl: "", tempstat: "" });
   };
 
-  delete = (index: number) => {
-    var a: string[];
-    a = this.state.todolist;
-    a.splice(index, 1);
-    this.setState({ todolist: a });
+  delete = (idx: number) => {
+    var a = this.state.todolist.filter((item, index) => (index !== idx)
+    )
+    this.setState({ todolist: a});
   };
+
+  fetchTodoData = () => {
+    fetch("http://tmd.linyuanlin.com/api/todos/")
+      .then((res) => res.json())
+      .then((resdata) => this.setState({ todolist: resdata }));
+  };
+
+  uploadNewTodo = () => {};
 
   render() {
     return (
@@ -41,17 +63,32 @@ export default class Todolist extends React.Component<{}, State> {
           maxWidth: "600px",
         }}
       >
-        <h3>Insert your to-do-list</h3>
         <Input
           size="md"
-          placeholder="Todolist"
-          onChange={(e) => this.setState({ temp: e })}
-          value={this.state.temp}
+          placeholder="Insert Your Title"
+          onChange={(e) => this.setState({ temptitle: e })}
+          value={this.state.temptitle}
+        />
+        <Input
+          size="md"
+          placeholder="Insert Your Deadline"
+          onChange={(e) => this.setState({ tempddl: e })}
+          value={this.state.tempddl}
+        />
+        <Input
+          size="md"
+          placeholder="Insert Your Status"
+          onChange={(e) => this.setState({ tempstat: e })}
+          value={this.state.tempstat}
         />
         <Button
           appearance="primary"
           onClick={() => {
-            this.push(this.state.temp);
+            this.push(
+              this.state.temptitle,
+              this.state.tempddl,
+              this.state.tempstat
+            );
           }}
         >
           Insert
@@ -60,7 +97,9 @@ export default class Todolist extends React.Component<{}, State> {
         <h1>
           {this.state.todolist.map((item, index) => (
             <p>
-              {item}
+              <h2>{item.title}</h2>
+              <h4>{item.ddl}</h4>
+              <h4>{item.status}
               <Button
                 appearance="primary"
                 onClick={() => {
@@ -68,7 +107,7 @@ export default class Todolist extends React.Component<{}, State> {
                 }}
               >
                 Delete
-              </Button>
+              </Button></h4>
             </p>
           ))}
         </h1>
