@@ -1,5 +1,8 @@
 export type Todo = {
   title: string;
-  ddl: string;
+  description: string;
+  deadline: string;
   status: string;
+  id: string;
+  ddl: string;
 };
