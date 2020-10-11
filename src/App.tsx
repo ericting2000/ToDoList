@@ -10,14 +10,18 @@ interface State {
 
 class App extends React.Component<{}, State> {
   login = (username: string, password: string) => {
-    if (username === "eric" && password === "123") {
-      alert("Hi!");
-      this.setState({ username: username });
-    } else if (username === "" || password === "") {
+    if (username === "" || password === "") {
       alert("Please fill all the blank!");
-    } else {
-      alert("Prong username or password!");
+      return;
     }
+
+    if (username !== "eric" || password !== "123") {
+      alert("Prong username or password!");
+      return;
+    }
+
+    alert("Hi!");
+    this.setState({ username: username });
   };
 
   constructor(props: Readonly<{}>) {
