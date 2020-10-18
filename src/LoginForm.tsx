@@ -32,7 +32,7 @@ export default class LoginForm extends React.Component<Props, State> {
         }}
       >
         <div>
-          <h1 style={{ margin: "20px 0" }}> Todolist.com</h1>
+          <h1 style={{ margin: "20px 0" }}> Too Many Deadlines</h1>
           <p style={{ margin: "5px 0px" }}>Username</p>
           <Input
             size="md"
