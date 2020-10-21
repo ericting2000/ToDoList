@@ -16,7 +16,7 @@ class App extends React.Component<{}, State> {
     }
 
     if (username !== "eric" || password !== "123") {
-      alert("Prong username or password!");
+      alert("Wrong username or password!");
       return;
     }
 
